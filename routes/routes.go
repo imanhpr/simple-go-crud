@@ -8,5 +8,6 @@ import (
 func IndexRouter() chi.Router {
 	r := chi.NewRouter()
 	r.Get("/", index.IndexController)
+	r.Get("/user", index.GetAllUsers)
 	return r
 }
