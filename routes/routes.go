@@ -9,5 +9,6 @@ func IndexRouter() chi.Router {
 	r := chi.NewRouter()
 	r.Get("/", index.IndexController)
 	r.Get("/user", index.GetAllUsers)
+	r.Post("/user", index.PostNewUser)
 	return r
 }

@@ -30,13 +30,20 @@ type UserRepo struct {
 	Db *sql.DB
 }
 
-func (ur UserRepo) InsertOne(user User) {
+func (ur UserRepo) InsertOne(user User) User {
 	const insert = "INSERT INTO users (name) VALUES (?)"
 	res, err := ur.Db.Exec(insert, user.Name)
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Println(res)
+	id, err := res.LastInsertId()
+	if err != nil {
+		log.Fatal(err)
+	}
+	ur.Db.QueryRow("SELECT * FROM users WHERE id = ?", id).Scan(&user.Id, &user.Name)
+	return user
+
 }
 
 func (ur UserRepo) GetAll() []User {
